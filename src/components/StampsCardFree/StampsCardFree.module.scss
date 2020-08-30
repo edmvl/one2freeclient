@@ -1,0 +1,77 @@
+.rectcontainer {
+  font-family: Rubik, monospace;
+  font-size: 14px;
+  margin: 4px 4px 4px 4px;
+  color: #793377;
+
+
+  .rectangleleft {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    display: inline-block;
+    background-color: #C65AC24D;
+    vertical-align: top;
+    box-shadow: 0 1px 4px rgba(121, 51, 119, 0.25);
+
+    .main {
+      margin: 3px;
+      line-height: 18px;
+      text-align: center;
+    }
+
+    .imgcontainer {
+      display: flex;
+      justify-content: center;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+    }
+
+  }
+
+  .hr {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 10px;
+    height: 60px;
+    width: 0;
+    border: 1px dashed #793377;
+    opacity: 0.6;
+  }
+
+  .rectangleright {
+    vertical-align: top;
+    width: 209px;
+    height: 80px;
+    border-radius: 8px;
+    background-color: #C65AC24D;
+    display: inline-block;
+    line-height: 24px;
+    font-size: 14px;
+    background-image: url("../../img/logo_free.svg");
+    background-repeat: no-repeat;
+    background-size: 42px 28px;
+    background-position: 90% 85%;
+    box-shadow: 0 1px 4px rgba(121, 51, 119, 0.25);
+
+    .companyname {
+      margin: 16px 0 0 16px;
+      width: 180px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .stampcount {
+      width: 200px;
+      margin: 0 0 16px 16px;
+    }
+
+  }
+}
+
+
+
