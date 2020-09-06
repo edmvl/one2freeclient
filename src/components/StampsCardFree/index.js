@@ -16,7 +16,7 @@ const StampsCardFree = ({ company }) => {
         </div>
         <div className={s.hr}/>
         <div className={s.rectangleright}>
-          <div className={s.companyname}>Original Magic Сafeteriess</div>
+          <div className={s.companyname}>{company.hostPointTitle}</div>
           <div className={s.stampcount}>Бесплатно</div>
         </div>
       </div>
