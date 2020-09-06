@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom'
 import MyStamps from './pages/MyStamps'
 import Card from './pages/Card'
 import s from './App.module.scss'
+import qr from './img/ico/qr-code.svg'
 
 class App extends Component {
   state = {
@@ -11,7 +12,7 @@ class App extends Component {
         'id': 0,
         'productTitle': 'Кофе',
         'hostPointTitle': 'Original Magic Сafetery',
-        'discountThreshold': 10000,
+        'discountThreshold': 4,
         'discountCount': 3,
         'validUntil': '2020-09-02T20:44:40.041Z',
         'discription': 'Кофе в подарок за 6 штампов',
@@ -81,6 +82,14 @@ class App extends Component {
             <Card {...props} data={this.state.companies}/>
           )}/>
         </BrowserRouter>
+        <div className={s.qrcontainer}>
+          <div className={s.qr}>
+            <img className={s.qrimg} src={qr} alt="qr"/>
+            <div className={s.qrtext}>
+              ПОКАЗАТЬ QR-КОД
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
