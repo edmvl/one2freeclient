@@ -1,8 +1,8 @@
 import React from 'react'
 import s from './StampsCardFree.module.scss'
+import getPictureUrl from '../../utils/getPictureUrl'
 
 const StampsCardFree = ({ company }) => {
-  const resourceUrls = 'https://api.test.one2free.ru'
   const picPathVariations = company.picPathVariations
 
   return (
@@ -11,7 +11,7 @@ const StampsCardFree = ({ company }) => {
         <div className={s.rectangleleft}>
           <div className={s.main}>{company.productTitle}</div>
           <div className={s.imgcontainer}>
-            <img className={s.icon} src={resourceUrls + picPathVariations.outline} alt={company.productTitle}/>
+            <img className={s.icon} src={getPictureUrl('outline', picPathVariations)} alt={company.productTitle}/>
           </div>
         </div>
         <div className={s.hr}/>

@@ -1,87 +1,39 @@
-import React, { Component } from 'react'
+import React from 'react'
 import s from './MyStamps.module.scss'
 import StampsCardFree from '../../components/StampsCardFree'
 import StampsCardDisable from '../../components/StampsCardDisable'
 import StampsCardActive from '../../components/StampsCardActive'
+import getCouponState from '../../utils/couponState'
 
-class MyStamps extends Component {
-  state = {
-    companies: [
-      {
-        'id': 0,
-        'productTitle': 'Кофе',
-        'hostPointTitle': 'Original Magic Сafetery',
-        'discountThreshold': 10000,
-        'discountCount': 3,
-        'validUntil': '2020-09-02T20:44:40.041Z',
-        'discription': 'string',
-        'picPathVariations': {
-          'active': '/resources/ico/active/coffee.png',
-          'normal': '/resources/ico/normal/coffee.png',
-          'outline': '/resources/ico/outline/coffee.png',
-          'stamp': '/resources/ico/stamp/coffee.png',
-        },
-      },
-      {
-        'id': 1,
-        'productTitle': 'Кофе',
-        'hostPointTitle': 'OCoffee Ninja',
-        'discountThreshold': 10,
-        'discountCount': 10,
-        'validUntil': '2021-09-02T20:44:40.041Z',
-        'discription': 'string',
-        'picPathVariations': {
-          'active': '/resources/ico/active/coffee.png',
-          'normal': '/resources/ico/normal/coffee.png',
-          'outline': '/resources/ico/outline/coffee.png',
-          'stamp': '/resources/ico/stamp/coffee.png',
-        },
-      },
-      {
-        'id': 2,
-        'productTitle': 'Кофе',
-        'hostPointTitle': 'Сhinese happiness',
-        'discountThreshold': 4,
-        'discountCount': 3,
-        'validUntil': '2021-09-02T20:44:40.041Z',
-        'discription': 'string',
-        'picPathVariations': {
-          'active': '/resources/ico/active/coffee.png',
-          'normal': '/resources/ico/normal/coffee.png',
-          'outline': '/resources/ico/outline/coffee.png',
-          'stamp': '/resources/ico/stamp/coffee.png',
-        },
-      },
-    ],
+const MyStamps = ({data, history}) => {
+  const onCardClick = (id) => {
+    history.push('/card/' + id)
   }
 
-  onCardClick = (id) => {
-    this.props.history.push('/card/' + id)
-  }
-
-  render() {
-    const getCompanyComponent = (coupon) => {
-      if (new Date(coupon.validUntil) < new Date()) return (
+  const getCompanyComponent = (coupon) => {
+    switch (getCouponState(coupon)) {
+      case 'expired': return (
         <StampsCardDisable company={coupon} key={coupon.id}/>
       )
-      if (coupon.discountCount >= coupon.discountThreshold) return (
+      case 'enough' : return (
         <StampsCardFree company={coupon} key={coupon.id}/>
       )
-      if (coupon.discountCount <= coupon.discountThreshold) return (
+      case 'insufficiently' : return (
         <StampsCardActive company={coupon} key={coupon.id}/>
       )
+      default: return null
     }
-    return (
-      <div className={s.container}>
-        <header className={s.header}>Мои штампы</header>
-        <p className={s.description}>Все заведения в которых можно поставить штамп</p>
-        {
-          this.state.companies.map((coupon) =>
-            <div key={coupon.id} onClick={() => this.onCardClick(coupon.id)}>{getCompanyComponent(coupon)}</div>)
-        }
-      </div>
-    )
   }
+  return (
+    <div className={s.container}>
+      <header className={s.header}>Мои штампы</header>
+      <p className={s.description}>Все заведения в которых можно поставить штамп</p>
+      {
+        data.map((coupon) =>
+          <div key={coupon.id} onClick={() => onCardClick(coupon.id)}>{getCompanyComponent(coupon)}</div>)
+      }
+    </div>
+  )
 }
 
 export default MyStamps

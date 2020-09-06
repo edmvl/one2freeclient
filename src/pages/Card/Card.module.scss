@@ -4,8 +4,8 @@
   font-size: 24px;
   line-height: 24px;
   letter-spacing: 0.4px;
-  color: #793377;
   margin-left: 8px;
+  color: #793377;
 }
 
 .description {
@@ -13,6 +13,49 @@
   color: #793377;
   width: 285px;
   margin: 8px 0 8px 8px;
+}
+
+.validUntil {
+  margin-left: 8px;
+  color: #41D4BC;
+}
+
+.stamps {
+  height: 288px;
+  width: 288px;
+  box-shadow: 0 1px 4px rgba(121, 51, 119, 0.25);
+  border-radius: 8px;
+  margin: 24px 8px 12px 8px;
+  color: #793377;
+  text-align: center;
+}
+
+.count {
+  width: 30%;
+  display: inline-block;
+  font-size: 64px;
+  opacity: 60%;
+  vertical-align: middle;
+}
+
+.hrtop {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 10px;
+  height: 0;
+  width: 30%;
+  border: 1px solid #793377;
+  opacity: 0.6;
+}
+
+.hrbottom {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: 10px;
+  height: 0;
+  width: 90%;
+  border: 1px solid #793377;
+  opacity: 0.6;
 }
 
 .container {
