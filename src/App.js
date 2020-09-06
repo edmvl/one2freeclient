@@ -55,7 +55,7 @@ class App extends Component {
       {
         'id': 3,
         'productTitle': 'Кофе',
-        'hostPointTitle': 'Сhinese happiness',
+        'hostPointTitle': 'StarBucks',
         'discountThreshold': 6,
         'discountCount': 4,
         'validUntil': '2021-09-02T20:44:40.041Z',
