@@ -1,3 +1,9 @@
+.container {
+  font-family: Rubik, monospace;
+  font-size: 14px;
+  margin-left: 15px;
+}
+
 .header {
   font-style: normal;
   font-weight: normal;
@@ -58,8 +64,39 @@
   opacity: 0.6;
 }
 
-.container {
-  font-family: Rubik, monospace;
-  font-size: 14px;
-  margin-left: 15px;
+.stampswrapper {
+  padding-left: 14px;;
+}
+
+.iconwrapper {
+  display: inline-block;
+  padding: 4px;
+}
+
+
+.icon {
+  width: 56px;
+  height: 56px;
+  vertical-align: middle;
+}
+
+.iconconstainer {
+  width: 30%;
+  display: inline-block;
+  font-size: 64px;
+  opacity: 60%;
+  vertical-align: middle;
+}
+
+.disable {
+  width: 56px;
+  height: 56px;
+  opacity: 0.3;
+  vertical-align: middle;
+}
+
+.free {
+  width: 156px;
+  height: 156px;
+  opacity: 1;
 }

@@ -2,6 +2,9 @@ import React from 'react'
 import s from './Card.module.scss'
 import formattedDate from '../../utils/date'
 import getCouponState from '../../utils/couponState'
+import RepeatedStampIcons from '../../components/RepeatedStampIcons'
+import getPictureUrl from '../../utils/getPictureUrl'
+import free from '../../img/logo_free.svg'
 
 const Card = ({ data, match }) => {
   const { params } = match
@@ -9,6 +12,7 @@ const Card = ({ data, match }) => {
   const coupon = data.find((item) => {
     return item.id === Number(id)
   })
+  const { picPathVariations } = coupon
   let rest = coupon.discountThreshold - coupon.discountCount
   console.log(coupon)
   const getCouponCardHeader = (coupon) => {
@@ -32,8 +36,12 @@ const Card = ({ data, match }) => {
       <div className={s.stamps}>
         <div>{getCouponCardHeader(coupon)}</div>
         <div className={s.hrtop}/>
-        <div className={s.count}>{rest}</div>
+        {rest ? <div className={s.count}>{rest}</div> :
+          <div className={s.iconconstainer}><img className={s.icon} src={getPictureUrl('normal', picPathVariations)}
+                                                 alt={coupon.productTitle}/></div>}
         <div className={s.hrtop}/>
+        {rest ? <RepeatedStampIcons company={coupon} style={s}/> :
+          <img className={s.free} src={free} alt="free"/>}
         <div className={s.hrbottom}/>
       </div>
     </div>
