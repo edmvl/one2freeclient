@@ -14,7 +14,6 @@ const Card = ({ data, match }) => {
   })
   const { picPathVariations } = coupon
   let rest = coupon.discountThreshold - coupon.discountCount
-  console.log(coupon)
   const getCouponCardHeader = (coupon) => {
     switch (getCouponState(coupon)) {
       case 'expired':
