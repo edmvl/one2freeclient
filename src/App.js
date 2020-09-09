@@ -2,17 +2,32 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import MyStamps from './pages/MyStamps'
 import Card from './pages/Card'
+import Auth from './pages/Auth'
+import QR from './components/QR'
 import s from './App.module.scss'
-import qr from './img/ico/qr-code.svg'
+/*
+import axios from 'axios'
+*/
 
 class App extends Component {
+  resourceUrl = 'https://api.test.one2free.ru'
+
+  componentDidMount() {
+/*
+    axios.post(this.resourceUrl + '/client/firstStart?DeviceId=' + 3463456 + '&DeviceType=3', {
+    }).then((resp)=>{
+      console.log(resp)
+    })
+*/
+  }
+
   state = {
     companies: [
       {
         'id': 0,
         'productTitle': 'Кофе',
         'hostPointTitle': 'Original Magic Сafetery',
-        'discountThreshold': 4,
+        'discountThreshold': 5,
         'discountCount': 3,
         'validUntil': '2020-09-02T20:44:40.041Z',
         'discription': 'Кофе в подарок за 6 штампов',
@@ -42,8 +57,8 @@ class App extends Component {
         'id': 2,
         'productTitle': 'Кофе',
         'hostPointTitle': 'Сhinese happiness',
-        'discountThreshold': 4,
-        'discountCount': 3,
+        'discountThreshold': 3,
+        'discountCount': 0,
         'validUntil': '2021-09-02T20:44:40.041Z',
         'discription': 'Кофе в подарок за 4 штампа',
         'picPathVariations': {
@@ -57,8 +72,8 @@ class App extends Component {
         'id': 3,
         'productTitle': 'Кофе',
         'hostPointTitle': 'StarBucks',
-        'discountThreshold': 6,
-        'discountCount': 4,
+        'discountThreshold': 5,
+        'discountCount': 3,
         'validUntil': '2021-09-02T20:44:40.041Z',
         'discription': 'Кофе в подарок за 4 штампа',
         'picPathVariations': {
@@ -81,15 +96,9 @@ class App extends Component {
           <Route path='/card/:id' render={(props) => (
             <Card {...props} data={this.state.companies}/>
           )}/>
+          <Route path='/login' component={Auth}/>
+          <QR/>
         </BrowserRouter>
-        <div className={s.qrcontainer}>
-          <div className={s.qr}>
-            <img className={s.qrimg} src={qr} alt="qr"/>
-            <div className={s.qrtext}>
-              ПОКАЗАТЬ QR-КОД
-            </div>
-          </div>
-        </div>
       </div>
     )
   }
