@@ -9,15 +9,37 @@ import Token from './pages/Token'
 import { Redirect } from 'react-router'
 import axios from 'axios'
 import qs from 'qs'
+import Index from './components/Modal'
 
 class App extends Component {
   resourceUrl = 'https://api.test.one2free.ru'
   state = {
     access_token: localStorage.getItem('access_token'),
     refresh_token: localStorage.getItem('refresh_token'),
+    qrPicData: localStorage.getItem('qrPicData'),
+    identifier: localStorage.getItem('identifier'),
+    username: localStorage.getItem('username'),
+    isQROpen: false,
   }
 
-  updateRefreshToken = ({ access_token, refresh_token }, callback) => {
+  getMyInfo = async () => {
+    if (localStorage.getItem('qrPicData')) {
+      return null
+    }
+    axios.get(this.resourceUrl + '/client/myInfo', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      },
+    }).then((resp) => {
+      const { data } = resp
+      const { qrPicData, identifier, username } = data
+      localStorage.setItem('qrPicData', qrPicData)
+      localStorage.setItem('identifier', identifier)
+      localStorage.setItem('username', username)
+    })
+  }
+
+  updateTokens = ({ access_token, refresh_token }, callback) => {
     localStorage.setItem('access_token', access_token)
     localStorage.setItem('refresh_token', refresh_token)
     this.setState(() => {
@@ -28,44 +50,54 @@ class App extends Component {
     }
   }
 
-  updateCoupons = () => {
-    axios.get(this.resourceUrl + '/coupons/client', {
+  refreshTokenIfUnauth = (err) => {
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      url: this.resourceUrl + '/connect/token',
+      data: qs.stringify({
+        grant_type: 'refresh_token',
+        client_id: 'one2free',
+        refresh_token: localStorage.getItem('refresh_token'),
+      }),
+    }
+    axios(options).then((resp) => {
+      const { data } = resp
+      const { access_token, refresh_token } = data
+      if (access_token && refresh_token) {
+        this.updateTokens({ access_token, refresh_token })
+      }
+    }).catch((err) => {
+      this.updateTokens({ access_token: null, refresh_token: null })
+    })
+  }
+
+  updateCoupons = async () => {
+    await axios.get(this.resourceUrl + '/coupons/client', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       },
     }).then((resp) => {
       console.log(resp)
     }).catch((err) => {
-      const { response } = err
-      const { statusText } = response
-
-      if (statusText === 'Unauthorized') {
-        const options = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          url: this.resourceUrl + '/connect/token',
-          data: qs.stringify({
-            grant_type: 'refresh_token',
-            client_id: 'one2free',
-            refresh_token: localStorage.getItem('refresh_token'),
-          }),
-        }
-        axios(options).then((resp) => {
-          const { data } = resp
-          const { access_token, refresh_token } = data
-          this.updateRefreshToken(access_token, refresh_token)
-        }).catch((err) => {
-          this.history.push('/login')
-          console.log(err)
-        })
-      }
+      this.refreshTokenIfUnauth(err)
     })
   }
 
   componentDidMount() {
     if (this.state.access_token) {
-      this.updateCoupons()
+      this.updateCoupons().then(this.getMyInfo)
     }
+  }
+
+  showQRCode = () => {
+    this.toggleModal()
+  }
+
+  toggleModal = () => {
+    this.setState({
+      isQROpen: !this.state.isQROpen,
+    })
   }
 
   render() {
@@ -73,21 +105,29 @@ class App extends Component {
       <div className={s.app}>
         {this.state.access_token ?
           <BrowserRouter>
-            <Route path='/' exact render={(props) => (
-              <MyStamps {...props} data={this.state.companies}/>
-            )}/>
-            <Route path='/card/:id' render={(props) => (
-              <Card {...props} data={this.state.companies}/>
-            )}/>
-
-            <QR/>
+            {!this.state.isQROpen ?
+              <>
+                <Route path='/' exact render={(props) => (
+                  <MyStamps {...props} data={this.state.companies}/>
+                )}/>
+                <Route path='/card/:id' render={(props) => (
+                  <Card {...props} data={this.state.companies}/>
+                )}/>
+              </>
+              :
+              <Index show={this.state.isQROpen}
+                     onClose={this.toggleModal}
+              ><img className={s.qrImage} src={'data:image/png;base64,' + localStorage.getItem('qrPicData')}
+                    alt=""/></Index>
+            }
+            <QR showQRCode={this.showQRCode}/>
           </BrowserRouter>
           :
           <BrowserRouter>
             <Route path='/login' component={Auth}/>
             <Route path='/getToken'
                    render={(props) => (
-                     <Token {...props} updateRefreshToken={this.updateRefreshToken} updateCoupons={this.updateCoupons}/>
+                     <Token {...props} updateRefreshToken={this.updateTokens} updateCoupons={this.updateCoupons}/>
                    )}
             />
             <Redirect to={{
