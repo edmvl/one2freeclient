@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class Index extends React.Component {
+class Model extends React.Component {
   render() {
     if (!this.props.show) {
       return null
@@ -15,10 +15,9 @@ class Index extends React.Component {
   }
 }
 
-Index.propTypes = {
-  onClose: PropTypes.func.isRequired,
+Model.propTypes = {
   show: PropTypes.bool,
   children: PropTypes.node,
 }
 
-export default Index
+export default Model

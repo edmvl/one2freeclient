@@ -9,16 +9,18 @@ import Token from './pages/Token'
 import { Redirect } from 'react-router'
 import axios from 'axios'
 import qs from 'qs'
-import Index from './components/Modal'
+import Model from './components/Modal'
 
 class App extends Component {
   resourceUrl = 'https://api.test.one2free.ru'
+  socket = null
   state = {
     access_token: localStorage.getItem('access_token'),
     refresh_token: localStorage.getItem('refresh_token'),
     qrPicData: localStorage.getItem('qrPicData'),
     identifier: localStorage.getItem('identifier'),
     username: localStorage.getItem('username'),
+    socketToken: localStorage.getItem('socketToken'),
     isQROpen: false,
   }
 
@@ -32,10 +34,11 @@ class App extends Component {
       },
     }).then((resp) => {
       const { data } = resp
-      const { qrPicData, identifier, username } = data
+      const { qrPicData, identifier, username, socketToken } = data
       localStorage.setItem('qrPicData', qrPicData)
       localStorage.setItem('identifier', identifier)
       localStorage.setItem('username', username)
+      localStorage.setItem('socketToken', socketToken)
     })
   }
 
@@ -44,10 +47,11 @@ class App extends Component {
     localStorage.setItem('refresh_token', refresh_token)
     this.setState(() => {
       return { access_token, refresh_token }
+    }, () =>{
+      if (callback) {
+        callback()
+      }
     })
-    if (callback) {
-      callback()
-    }
   }
 
   refreshTokenIfUnauth = (err) => {
@@ -65,7 +69,9 @@ class App extends Component {
       const { data } = resp
       const { access_token, refresh_token } = data
       if (access_token && refresh_token) {
-        this.updateTokens({ access_token, refresh_token })
+        this.updateTokens({ access_token, refresh_token }, () => {
+          this.updateCoupons();
+        })
       }
     }).catch((err) => {
       this.updateTokens({ access_token: null, refresh_token: null })
@@ -90,13 +96,37 @@ class App extends Component {
     }
   }
 
+
   showQRCode = () => {
-    this.toggleModal()
+    const socketToken = localStorage.getItem('socketToken')
+    this.socket = new WebSocket(`wss://api.test.one2free.ru/hub/clients?userGuid=${socketToken}`)
+    this.socket.onopen = () => {
+      this.setState({
+        isQROpen: true,
+      })
+    }
+    this.socket.onmessage = (event) => {
+      const { data } = event
+      const { soldProductPositions, productId, method } = JSON.parse(data)
+      if (method === 'stampAction') {
+        this.socket.close();
+        this.socket = null
+        console.log(`поставлено ${soldProductPositions} штампов по продукту ${productId}`)
+        this.hideQRCode()
+      }
+    }
+    this.socket.onclose = (event) => {
+      this.socket = null
+      if (!event.wasClean) {
+        alert('Обрыв соединения')
+      }
+      this.hideQRCode()
+    }
   }
 
-  toggleModal = () => {
+  hideQRCode = () => {
     this.setState({
-      isQROpen: !this.state.isQROpen,
+      isQROpen: false,
     })
   }
 
@@ -115,10 +145,10 @@ class App extends Component {
                 )}/>
               </>
               :
-              <Index show={this.state.isQROpen}
+              <Model show={this.state.isQROpen}
                      onClose={this.toggleModal}
               ><img className={s.qrImage} src={'data:image/png;base64,' + localStorage.getItem('qrPicData')}
-                    alt=""/></Index>
+                    alt=""/></Model>
             }
             <QR showQRCode={this.showQRCode}/>
           </BrowserRouter>
