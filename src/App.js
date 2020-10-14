@@ -47,7 +47,7 @@ class App extends Component {
     localStorage.setItem('refresh_token', refresh_token)
     this.setState(() => {
       return { access_token, refresh_token }
-    }, () =>{
+    }, () => {
       if (callback) {
         callback()
       }
@@ -70,7 +70,8 @@ class App extends Component {
       const { access_token, refresh_token } = data
       if (access_token && refresh_token) {
         this.updateTokens({ access_token, refresh_token }, () => {
-          this.updateCoupons();
+          this.getClientCoupons().then(r => {
+          })
         })
       }
     }).catch((err) => {
@@ -78,7 +79,7 @@ class App extends Component {
     })
   }
 
-  updateCoupons = async () => {
+  getClientCoupons = async () => {
     await axios.get(this.resourceUrl + '/coupons/client', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -92,12 +93,14 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.access_token) {
-      this.updateCoupons().then(this.getMyInfo)
+      this.getClientCoupons().then(this.getMyInfo)
     }
   }
 
-
   showQRCode = () => {
+    if (this.socket) {
+      return false
+    }
     const socketToken = localStorage.getItem('socketToken')
     this.socket = new WebSocket(`wss://api.test.one2free.ru/hub/clients?userGuid=${socketToken}`)
     this.socket.onopen = () => {
@@ -109,7 +112,7 @@ class App extends Component {
       const { data } = event
       const { soldProductPositions, productId, method } = JSON.parse(data)
       if (method === 'stampAction') {
-        this.socket.close();
+        this.socket.close()
         this.socket = null
         console.log(`поставлено ${soldProductPositions} штампов по продукту ${productId}`)
         this.hideQRCode()
@@ -131,39 +134,58 @@ class App extends Component {
   }
 
   render() {
+    const getQrCodeElement = (src) => {
+      return <Model show={true}>
+        <img className={s.qrImage}
+             src={src}
+             alt="QR"
+        />
+      </Model>
+    }
+
+    const getCompaniesRoutes = () => {
+      const companies = this.state.companies;
+      return <>
+        <Route path='/' exact render={(props) => (
+          <MyStamps {...props} data={companies}/>
+        )}/>
+        <Route path='/card/:id' render={(props) => (
+          <Card {...props} data={companies}/>
+        )}/>
+      </>
+    }
+
+    const getAuthoredRoutes = () => {
+      return <BrowserRouter>
+        {
+          this.state.isQROpen ?
+            getQrCodeElement('data:image/png;base64,' + localStorage.getItem('qrPicData'))
+            :
+            getCompaniesRoutes()
+        }
+        <QR showQRCode={this.showQRCode}/>
+      </BrowserRouter>
+    }
+
+    const getLoginRoutes = () => {
+      return <BrowserRouter>
+        <Route path='/login' component={Auth}/>
+        <Route path='/getToken'
+               render={(props) => (
+                 <Token {...props} updateRefreshToken={this.updateTokens} updateCoupons={this.getClientCoupons}/>
+               )}
+        />
+        <Redirect to={{
+          pathname: '/login',
+        }}/>
+      </BrowserRouter>
+    }
+
     return (
       <div className={s.app}>
-        {this.state.access_token ?
-          <BrowserRouter>
-            {!this.state.isQROpen ?
-              <>
-                <Route path='/' exact render={(props) => (
-                  <MyStamps {...props} data={this.state.companies}/>
-                )}/>
-                <Route path='/card/:id' render={(props) => (
-                  <Card {...props} data={this.state.companies}/>
-                )}/>
-              </>
-              :
-              <Model show={this.state.isQROpen}
-                     onClose={this.toggleModal}
-              ><img className={s.qrImage} src={'data:image/png;base64,' + localStorage.getItem('qrPicData')}
-                    alt=""/></Model>
-            }
-            <QR showQRCode={this.showQRCode}/>
-          </BrowserRouter>
-          :
-          <BrowserRouter>
-            <Route path='/login' component={Auth}/>
-            <Route path='/getToken'
-                   render={(props) => (
-                     <Token {...props} updateRefreshToken={this.updateTokens} updateCoupons={this.updateCoupons}/>
-                   )}
-            />
-            <Redirect to={{
-              pathname: '/login',
-            }}/>
-          </BrowserRouter>}
+        {
+          this.state.access_token ? getAuthoredRoutes() : getLoginRoutes()
+        }
       </div>
     )
   }
