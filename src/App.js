@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Link, Route } from 'react-router-dom'
 import MyStamps from './pages/MyStamps'
 import Card from './pages/Card'
 import Auth from './pages/Auth'
 import QR from './components/QR'
 import s from './App.module.scss'
 import Token from './pages/Token'
+import Model from './components/Modal'
+import HostPoints from './pages/HostPoints'
 import { Redirect } from 'react-router'
 import axios from 'axios'
 import qs from 'qs'
-import Model from './components/Modal'
 
 class App extends Component {
   resourceUrl = 'https://api.test.one2free.ru'
@@ -22,6 +23,8 @@ class App extends Component {
     username: localStorage.getItem('username'),
     socketToken: localStorage.getItem('socketToken'),
     isQROpen: false,
+    companies: [],
+    hostpoints: [],
   }
 
   getMyInfo = async () => {
@@ -85,7 +88,31 @@ class App extends Component {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       },
     }).then((resp) => {
-      console.log(resp)
+      const { data } = resp
+      this.setState(() => {
+        return {
+          companies: data,
+        }
+      })
+    }).catch((err) => {
+      this.refreshTokenIfUnauth(err)
+    })
+  }
+
+  getHostPoints = async () => {
+    await axios.get(this.resourceUrl + '/client/hostPointsMock', {
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
+      },
+    }).then((resp) => {
+      const { data } = resp
+      const { items } = data
+      console.log(items)
+      this.setState(() => {
+        return {
+          hostpoints: items,
+        }
+      })
     }).catch((err) => {
       this.refreshTokenIfUnauth(err)
     })
@@ -129,7 +156,7 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.access_token) {
-      this.getClientCoupons().then(this.getMyInfo)
+      this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints)
     }
   }
 
@@ -143,8 +170,8 @@ class App extends Component {
       </Model>
     }
 
-    const getCompaniesRoutes = () => {
-      const companies = this.state.companies
+    const getMainRoutes = () => {
+      const { companies, hostpoints } = this.state
       return <>
         <Route path='/' exact render={(props) => (
           <MyStamps {...props} data={companies}/>
@@ -152,16 +179,23 @@ class App extends Component {
         <Route path='/card/:id' render={(props) => (
           <Card {...props} data={companies}/>
         )}/>
+        <Route path='/hostpoints' render={(props) => (
+          <HostPoints {...props} data={hostpoints}/>
+        )}/>
       </>
     }
 
     const getAuthoredRoutes = () => {
       return <BrowserRouter>
+        <div className={s.buttons}>
+          <Link to={'/'}>Мои штампы</Link>
+          <Link to={'/hostpoints'}>Все заведения</Link>
+        </div>
         {
           this.state.isQROpen ?
             getQrCodeElement('data:image/png;base64,' + localStorage.getItem('qrPicData'))
             :
-            getCompaniesRoutes()
+            getMainRoutes()
         }
         <QR showQRCode={this.showQRCode}/>
       </BrowserRouter>

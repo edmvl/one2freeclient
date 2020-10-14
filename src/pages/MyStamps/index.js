@@ -31,7 +31,6 @@ const MyStamps = ({ data = [], history }) => {
   return (
     <div className={s.container}>
       <header className={s.header}>Мои штампы</header>
-      <p className={s.description}>Все заведения в которых можно поставить штамп</p>
       {
         data.map((coupon) =>
           <div key={coupon.id} onClick={() => onCardClick(coupon.id)}>{getCompanyComponent(coupon)}</div>)
