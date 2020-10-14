@@ -91,12 +91,6 @@ class App extends Component {
     })
   }
 
-  componentDidMount() {
-    if (this.state.access_token) {
-      this.getClientCoupons().then(this.getMyInfo)
-    }
-  }
-
   showQRCode = () => {
     if (this.socket) {
       return false
@@ -133,6 +127,12 @@ class App extends Component {
     })
   }
 
+  componentDidMount() {
+    if (this.state.access_token) {
+      this.getClientCoupons().then(this.getMyInfo)
+    }
+  }
+
   render() {
     const getQrCodeElement = (src) => {
       return <Model show={true}>
@@ -144,7 +144,7 @@ class App extends Component {
     }
 
     const getCompaniesRoutes = () => {
-      const companies = this.state.companies;
+      const companies = this.state.companies
       return <>
         <Route path='/' exact render={(props) => (
           <MyStamps {...props} data={companies}/>
