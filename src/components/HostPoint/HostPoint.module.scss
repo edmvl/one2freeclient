@@ -1,0 +1,58 @@
+.rectcontainer {
+  font-family: Rubik, monospace;
+  font-size: 14px;
+  margin: 4px 4px 4px 4px;
+  color: #793377;
+
+  .rectangleleft {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    display: inline-block;
+    box-shadow: 0 1px 4px rgba(121, 51, 119, 0.25);
+
+    .imgcontainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    .icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+    }
+  }
+
+  .rectangleright {
+    vertical-align: top;
+    width: 209px;
+    height: 80px;
+    border-radius: 8px;
+    display: inline-block;
+    line-height: 24px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(121, 51, 119, 0.25);
+
+    .companyname {
+      display: inline-block;
+      margin-left: 16px;
+      width: 189px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .address {
+      margin-left: 16px;
+      color: #41D4BC;
+    }
+  }
+}
+
+
+
