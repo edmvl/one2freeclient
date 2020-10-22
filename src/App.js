@@ -25,6 +25,9 @@ class App extends Component {
     isQROpen: false,
     companies: [],
     hostpoints: [],
+    latitude: null,
+    longitude: null,
+    hostPointPage: 0,
   }
 
   getMyInfo = async () => {
@@ -73,8 +76,7 @@ class App extends Component {
       const { access_token, refresh_token } = data
       if (access_token && refresh_token) {
         this.updateTokens({ access_token, refresh_token }, () => {
-          this.getClientCoupons().then(r => {
-          })
+          this.getClientCoupons().then(this.getHostPoints(this.state.hostPointPage))
         })
       }
     }).catch((err) => {
@@ -99,15 +101,20 @@ class App extends Component {
     })
   }
 
-  getHostPoints = async () => {
+  getHostPoints = async (page) => {
     await axios.get(this.resourceUrl + '/client/hostPointsMock', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       },
+      params: {
+        page: page,
+        size: 6,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+      },
     }).then((resp) => {
       const { data } = resp
       const { items } = data
-      console.log(items)
       this.setState(() => {
         return {
           hostpoints: items,
@@ -154,9 +161,24 @@ class App extends Component {
     })
   }
 
+  geoDetectSuccess = (position) => {
+    console.log(position.coords)
+    const { latitude, longitude } = position.coords
+
+    this.setState(() => {
+      return {
+        latitude,
+        longitude,
+      }
+    })
+  }
+
   componentDidMount() {
     if (this.state.access_token) {
-      this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints)
+      this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints(this.state.hostPointPage))
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(this.geoDetectSuccess)
     }
   }
 
