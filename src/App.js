@@ -28,6 +28,9 @@ class App extends Component {
     latitude: null,
     longitude: null,
     hostPointPage: 0,
+    myStampsButtonColor: 'white',
+    hostPointsButtonColor: 'grey',
+
   }
 
   getMyInfo = async () => {
@@ -162,7 +165,6 @@ class App extends Component {
   }
 
   geoDetectSuccess = (position) => {
-    console.log(position.coords)
     const { latitude, longitude } = position.coords
 
     this.setState(() => {
@@ -192,6 +194,15 @@ class App extends Component {
       </Model>
     }
 
+    const routeChanged = (route) => {
+      this.setState(() => {
+        return {
+          myStampsButtonColor: route === 'main' ? 'white' : 'grey',
+          hostPointsButtonColor: route === 'main' ? 'grey' : 'white',
+        }
+      })
+    }
+
     const getMainRoutes = () => {
       const { companies, hostpoints } = this.state
       return <>
@@ -204,14 +215,29 @@ class App extends Component {
         <Route path='/hostpoints' render={(props) => (
           <HostPoints {...props} data={hostpoints}/>
         )}/>
+        <Route path='/hostpoint/:id' render={(props) => (
+          <Card {...props} data={hostpoints}/>
+        )}/>
       </>
     }
 
     const getAuthoredRoutes = () => {
       return <BrowserRouter>
-        <div className={s.buttons}>
-          <Link to={'/'}>Мои штампы</Link>
-          <Link to={'/hostpoints'}>Все заведения</Link>
+        <div className={s.buttonswrapper}>
+          <div className={s.buttonscontainer}>
+            <Link to={'/'}>
+              <button style={{ backgroundColor: this.state.myStampsButtonColor }} type="button"
+                      onClick={() => routeChanged('main')}>Мои
+                штампы
+              </button>
+            </Link>
+            <Link to={'/hostpoints'}>
+              <button style={{ backgroundColor: this.state.hostPointsButtonColor }} type="button"
+                      onClick={() => routeChanged('hostpoints')}>Все
+                заведения
+              </button>
+            </Link>
+          </div>
         </div>
         {
           this.state.isQROpen ?

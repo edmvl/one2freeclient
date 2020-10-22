@@ -7,3 +7,36 @@
 .qrImage {
   width: 100vw;
 }
+
+.buttonswrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonscontainer {
+  width: 280px;
+  background-color: grey;
+  border-radius: 6px;
+}
+
+button {
+  background-color: grey;
+  border: none;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 6px;
+  width: 140px;
+}
+
+button:active {
+  outline: none;
+  border: none;
+}
+
+button:focus {
+  outline: 0;
+}
