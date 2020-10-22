@@ -27,11 +27,16 @@ const Card = ({ data, match }) => {
     }
   }
 
+  const getDateUntil = (coupon) => {
+    return coupon.validUntil ?
+      <div className={s.validUntil}>{'до ' + formattedDate(new Date(coupon.validUntil))}</div> : null
+
+  }
   return (
     <div className={s.container}>
       <div className={s.header}>{coupon.hostPointTitle}</div>
       <div className={s.description}>{coupon.discription}</div>
-      <div className={s.validUntil}>{'до ' + formattedDate(new Date(coupon.validUntil))}</div>
+      {getDateUntil(coupon)}
       <div className={s.stamps}>
         <div>{getCouponCardHeader(coupon)}</div>
         <div className={s.hrtop}/>
