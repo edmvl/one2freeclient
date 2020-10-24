@@ -33,7 +33,7 @@ const MyStamps = ({ data = [], history }) => {
       <header className={s.header}>Мои штампы</header>
       {
         data.map((coupon) =>
-          <div key={coupon.id} onClick={() => onCardClick(coupon.id)}>{getCompanyComponent(coupon)}</div>)
+          <div className={s.card} key={coupon.id} onClick={() => onCardClick(coupon.id)}>{getCompanyComponent(coupon)}</div>)
       }
     </div>
   )

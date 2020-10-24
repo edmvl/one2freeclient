@@ -11,13 +11,13 @@ const RepeatedStampIcons = ({ company, style }) => {
     return stampedIcons.map((icon) => {
         index++
         return <div key={index} className={s.iconwrapper}>
-          <img src={icon} className={s.icon} alt={company.productTitle}/>
+          <img src={icon} className={s.activeicon} alt={company.productTitle}/>
         </div>
       },
     ).concat(restIcons.map((icon) => {
         index++
         return <div key={index} className={s.iconwrapper}>
-          <img src={icon} className={s.disable} alt={company.productTitle}/>
+          <img src={icon} className={s.disableicon} alt={company.productTitle}/>
         </div>
       },
     ))
