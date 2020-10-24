@@ -29,7 +29,7 @@
 
 .rectangleright {
   vertical-align: top;
-  width: 209px;
+  width: calc(100% - 98px);
   height: 80px;
   border-radius: 8px;
   display: inline-block;
