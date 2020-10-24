@@ -6,7 +6,7 @@ import Auth from './pages/Auth'
 import QR from './components/QR'
 import s from './App.module.scss'
 import Token from './pages/Token'
-import Model from './components/Modal'
+import Modal from './components/Modal'
 import HostPoints from './pages/HostPoints'
 import { Redirect } from 'react-router'
 import axios from 'axios'
@@ -29,7 +29,7 @@ class App extends Component {
     longitude: null,
     hostPointPage: 0,
     myStampsButtonColor: 'white',
-    hostPointsButtonColor: 'grey',
+    hostPointsButtonColor: 'gainsboro',
 
   }
 
@@ -185,20 +185,36 @@ class App extends Component {
   }
 
   render() {
+    const qrReadyClicked = () => {
+      this.setState(() => {
+        return {
+          isQROpen: false,
+        }
+      })
+      this.socket.close()
+      this.socket = null
+    }
+
     const getQrCodeElement = (src) => {
-      return <Model show={true}>
-        <img className={s.qrImage}
-             src={src}
-             alt="QR"
-        />
-      </Model>
+      return <Modal show={true}>
+        <div className={s.qrwrapper}>
+          <div>Покажи QR-код чтобы поставить</div>
+          <div>или списать штампы</div>
+          <img className={s.qrImage}
+               src={src}
+               alt="QR"
+          />
+          <div>ID {this.state.identifier}</div>
+          <button className={s.qrbutton} onClick={() => qrReadyClicked()}>Готово</button>
+        </div>
+      </Modal>
     }
 
     const routeChanged = (route) => {
       this.setState(() => {
         return {
-          myStampsButtonColor: route === 'main' ? 'white' : 'grey',
-          hostPointsButtonColor: route === 'main' ? 'grey' : 'white',
+          myStampsButtonColor: route === 'main' ? 'white' : 'gainsboro',
+          hostPointsButtonColor: route === 'main' ? 'gainsboro' : 'white',
         }
       })
     }

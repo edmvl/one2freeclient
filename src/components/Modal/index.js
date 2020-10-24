@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class Model extends React.Component {
+class Modal extends React.Component {
   render() {
     if (!this.props.show) {
       return null
@@ -15,9 +15,9 @@ class Model extends React.Component {
   }
 }
 
-Model.propTypes = {
+Modal.propTypes = {
   show: PropTypes.bool,
   children: PropTypes.node,
 }
 
-export default Model
+export default Modal
