@@ -111,7 +111,7 @@ class App extends Component {
       },
       params: {
         page: page,
-        size: 6,
+        size: 10,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
       },
