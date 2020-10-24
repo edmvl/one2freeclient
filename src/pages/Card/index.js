@@ -37,16 +37,25 @@ const Card = ({ data, match }) => {
       <div className={s.header}>{coupon.hostPointTitle}</div>
       <div className={s.description}>{coupon.discription}</div>
       {getDateUntil(coupon)}
-      <div className={s.stamps}>
-        <div>{getCouponCardHeader(coupon)}</div>
-        <div className={s.hrtop}/>
-        {rest ? <div className={s.count}>{rest}</div> :
-          <div className={s.iconconstainer}><img className={s.icon} src={getPictureUrl('normal', picPathVariations)}
-                                                 alt={coupon.productTitle}/></div>}
-        <div className={s.hrtop}/>
-        {rest ? <RepeatedStampIcons company={coupon} style={s}/> :
-          <img className={s.free} src={free} alt="free"/>}
-        <div className={s.hrbottom}/>
+      <div className={s.stampswrapper}>
+        <div className={s.stamps}>
+          <div>{getCouponCardHeader(coupon)}</div>
+          <div className={s.hrtop}/>
+          {rest ?
+            <div className={s.count}>{rest}</div>
+            :
+            <div className={s.iconconstainer}>
+              <img
+                className={s.icon}
+                src={getPictureUrl('normal', picPathVariations)}
+                alt={coupon.productTitle}
+              />
+            </div>}
+          <div className={s.hrtop}/>
+          {rest ? <RepeatedStampIcons company={coupon} style={s}/> :
+            <img className={s.free} src={free} alt="free"/>}
+          <div className={s.hrbottom}/>
+        </div>
       </div>
     </div>
   )

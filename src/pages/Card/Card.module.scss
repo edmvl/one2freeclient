@@ -12,6 +12,7 @@
   letter-spacing: 0.4px;
   margin-left: 8px;
   color: #793377;
+  text-align: center;
 }
 
 .description {
@@ -24,6 +25,11 @@
 .validUntil {
   margin-left: 8px;
   color: #41D4BC;
+}
+
+.stampswrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .stamps {
@@ -66,7 +72,7 @@
 }
 
 .stampswrapper {
-  padding-left: 14px;;
+  padding-left: 14px;
 }
 
 .iconwrapper {
@@ -75,7 +81,7 @@
 }
 
 
-.icon {
+.activeicon {
   width: 56px;
   height: 56px;
   vertical-align: middle;
@@ -89,10 +95,16 @@
   vertical-align: middle;
 }
 
-.disable {
+.disableicon {
   width: 56px;
   height: 56px;
   opacity: 0.3;
+  vertical-align: middle;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
   vertical-align: middle;
 }
 
