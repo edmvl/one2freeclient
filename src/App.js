@@ -198,8 +198,7 @@ class App extends Component {
     const getQrCodeElement = (src) => {
       return <Modal show={true}>
         <div className={s.qrwrapper}>
-          <div>Покажи QR-код чтобы поставить</div>
-          <div>или списать штампы</div>
+          <div className={s.qrdescription}>Покажи QR-код чтобы поставить или списать штампы</div>
           <img className={s.qrImage}
                src={src}
                alt="QR"

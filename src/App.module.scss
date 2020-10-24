@@ -12,11 +12,10 @@
   font-family: Rubik, monospace;
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 24px;
   letter-spacing: 0.4px;
   color: #793377;
-  margin: 20px;
 }
 
 .qrImage {
@@ -24,8 +23,12 @@
   max-width: 300px;
 }
 
+.qrdescription {
+  margin: 20px;
+}
+
 .qrbutton {
-  margin: 30px;
+  margin: 10px;
   background-color: #793377;
   color: white;
   text-transform: uppercase;
