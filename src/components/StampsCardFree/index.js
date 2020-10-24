@@ -11,7 +11,7 @@ const StampsCardFree = ({ company }) => {
         <div className={s.rectangleleft}>
           <div className={s.main}>{company.productTitle}</div>
           <div className={s.imgcontainer}>
-            <img className={s.icon} src={getPictureUrl('outline', picPathVariations)} alt={company.productTitle}/>
+            <img className={s.icon} src={getPictureUrl('active', picPathVariations)} alt={company.productTitle}/>
           </div>
         </div>
         <div className={s.hr}/>
