@@ -18,10 +18,10 @@ const Auth = () => {
       <div className={s.description}>
         Вход в аккаунт
       </div>
-      <a href="https://api.test.one2free.ru/client/login?deviceType=4&provider=Yandex">
+      <a href="https://api.test.one2free.ru/client/login?deviceType=4&provider=Google">
         <img className={s.icon} src={goo} alt="Google"/>
       </a>
-      <a href="https://api.test.one2free.ru/client/login?deviceType=4&provider=Google">
+      <a href="https://api.test.one2free.ru/client/login?deviceType=4&provider=Yandex">
         <img className={s.icon} src={ya} alt="Yandex"/>
       </a>
       <a href="https://api.test.one2free.ru/client/login?deviceType=4&provider=Facebook">
