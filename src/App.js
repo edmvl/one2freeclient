@@ -79,7 +79,7 @@ class App extends Component {
       const { access_token, refresh_token } = data
       if (access_token && refresh_token) {
         this.updateTokens({ access_token, refresh_token }, () => {
-          this.getClientCoupons().then(this.getHostPoints(this.state.hostPointPage))
+          this.getClientCoupons().then(this.getHostPoints())
         })
       }
     }).catch((err) => {
@@ -104,13 +104,13 @@ class App extends Component {
     })
   }
 
-  getHostPoints = async (page) => {
+  getHostPoints = async () => {
     await axios.get(this.resourceUrl + '/client/hostPointsMock', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       },
       params: {
-        page: page,
+        page: this.state.hostPointPage,
         size: 10,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
@@ -118,9 +118,14 @@ class App extends Component {
     }).then((resp) => {
       const { data } = resp
       const { items } = data
-      this.setState(() => {
+      if (items.length === 0) {
+        return
+      }
+      const newhostpoints = this.state.hostpoints.concat(items)
+      this.setState((state) => {
         return {
-          hostpoints: items,
+          hostPointPage: state.hostPointPage + 1,
+          hostpoints: newhostpoints,
         }
       })
     }).catch((err) => {
@@ -177,7 +182,7 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.access_token) {
-      this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints(this.state.hostPointPage))
+      this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints())
     }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.geoDetectSuccess)
@@ -228,7 +233,7 @@ class App extends Component {
           <Card {...props} data={companies}/>
         )}/>
         <Route path='/hostpoints' render={(props) => (
-          <HostPoints {...props} data={hostpoints}/>
+          <HostPoints {...props} data={hostpoints} onNextPage={() => this.getHostPoints()}/>
         )}/>
         <Route path='/hostpoint/:id' render={(props) => (
           <Card {...props} data={hostpoints}/>

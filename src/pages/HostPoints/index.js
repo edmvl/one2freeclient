@@ -2,12 +2,12 @@ import React from 'react'
 import s from './HostPoints.module.scss'
 import HostPoint from '../../components/HostPoint'
 
-const HostPoints = ({ data = [], history }) => {
+const HostPoints = ({ data = [], history, onNextPage }) => {
   const handleScroll = (e) => {
     const { target } = e
     const { scrollHeight, scrollTop, clientHeight } = target
     if (scrollHeight - scrollTop === clientHeight) {
-      console.log('finish!')
+      onNextPage();
     }
   }
   const onHostPointClick = (id) => {
