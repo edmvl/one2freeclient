@@ -39,6 +39,7 @@
   width: 280px;
   background-color: gainsboro;
   border-radius: 6px;
+  margin-top: 10px;
 }
 
 button {
@@ -52,6 +53,7 @@ button {
   border-radius: 6px;
   width: 136px;
   margin: 2px;
+  transition: 0.4s;
 }
 
 button:active {
