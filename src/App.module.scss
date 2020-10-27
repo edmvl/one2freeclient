@@ -1,3 +1,14 @@
+.qrcontainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  background: rgba(255, 255, 255, 1);
+  transition: 1s;
+}
+
 .qrwrapper {
   width: 100vw;
   display: flex;
@@ -10,6 +21,7 @@
   line-height: 24px;
   letter-spacing: 0.4px;
   color: #793377;
+  margin: 4px;
 }
 
 .qrImage {

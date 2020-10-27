@@ -30,7 +30,7 @@ class App extends Component {
     hostPointPage: 0,
     myStampsButtonColor: 'white',
     hostPointsButtonColor: 'gainsboro',
-
+    qrtopposition: 1000,
   }
 
   getMyInfo = async () => {
@@ -137,6 +137,11 @@ class App extends Component {
     if (this.socket) {
       return false
     }
+    this.setState(() => {
+      return {
+        qrtopposition: 0,
+      }
+    })
     const socketToken = localStorage.getItem('socketToken')
     this.socket = new WebSocket(`wss://api.test.one2free.ru/hub/clients?userGuid=${socketToken}`)
     this.socket.onopen = () => {
@@ -166,6 +171,7 @@ class App extends Component {
   hideQRCode = () => {
     this.setState({
       isQROpen: false,
+      qrtopposition: 1000,
     })
   }
 
@@ -202,14 +208,16 @@ class App extends Component {
 
     const getQrCodeElement = (src) => {
       return <Modal show={true}>
-        <div className={s.qrwrapper}>
-          <div className={s.qrdescription}>Покажи QR-код чтобы поставить или списать штампы</div>
-          <img className={s.qrImage}
-               src={src}
-               alt="QR"
-          />
-          <div>ID {this.state.identifier}</div>
-          <button className={s.qrbutton} onClick={() => qrReadyClicked()}>Готово</button>
+        <div style={{ top: this.state.qrtopposition }} className={s.qrcontainer}>
+          <div className={s.qrwrapper}>
+            <div className={s.qrdescription}>Покажи QR-код чтобы поставить или списать штампы</div>
+            <img className={s.qrImage}
+                 src={src}
+                 alt="QR"
+            />
+            <div>ID {this.state.identifier}</div>
+            <button className={s.qrbutton} onClick={() => qrReadyClicked()}>Готово</button>
+          </div>
         </div>
       </Modal>
     }
@@ -243,6 +251,9 @@ class App extends Component {
 
     const getAuthoredRoutes = () => {
       return <BrowserRouter>
+        {
+          getQrCodeElement('data:image/png;base64,' + localStorage.getItem('qrPicData'))
+        }
         <div className={s.buttonswrapper}>
           <div className={s.buttonscontainer}>
             <Link to={'/'}>
@@ -260,10 +271,7 @@ class App extends Component {
           </div>
         </div>
         {
-          this.state.isQROpen ?
-            getQrCodeElement('data:image/png;base64,' + localStorage.getItem('qrPicData'))
-            :
-            getMainRoutes()
+          getMainRoutes()
         }
         <QR showQRCode={this.showQRCode}/>
       </BrowserRouter>
