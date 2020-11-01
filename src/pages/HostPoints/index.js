@@ -13,9 +13,7 @@ const HostPoints = ({ data = [], history, onNextPage, changeButton }) => {
   const onHostPointClick = (id) => {
     history.push('/hostpoint/' + id)
   }
-  useEffect(() => {
-    changeButton()
-  }, [])
+  useEffect(changeButton, [])
   return (
     <div className={s.container} onScroll={handleScroll}>
       <header className={s.header}>Все заведения</header>

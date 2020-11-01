@@ -28,9 +28,7 @@ const MyStamps = ({ data = [], history, changeButton }) => {
         return null
     }
   }
-  useEffect(() => {
-    changeButton()
-  }, [])
+  useEffect(changeButton, [])
   return (
     <div className={s.container}>
       <header className={s.header}>Мои штампы</header>
