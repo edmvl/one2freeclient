@@ -11,6 +11,7 @@ import HostPoints from './pages/HostPoints'
 import { Redirect } from 'react-router'
 import axios from 'axios'
 import qs from 'qs'
+import HostPointPage from './pages/HostPointPage'
 
 class App extends Component {
   resourceUrl = 'https://api.test.one2free.ru'
@@ -105,7 +106,7 @@ class App extends Component {
   }
 
   getHostPoints = async () => {
-    await axios.get(this.resourceUrl + '/client/hostPointsMock', {
+    await axios.get(this.resourceUrl + '/client/hostPoints', {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
       },
@@ -252,7 +253,7 @@ class App extends Component {
             changeButton={() => this.routeChanged('hostpoints')}/>
         )}/>
         <Route path='/hostpoint/:id' render={(props) => (
-          <Card {...props} data={hostpoints}/>
+          <HostPointPage {...props} data={hostpoints}/>
         )}/>
       </>
     }
