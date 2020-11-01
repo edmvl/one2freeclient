@@ -28,8 +28,8 @@ class App extends Component {
     latitude: null,
     longitude: null,
     hostPointPage: 0,
-    myStampsButtonColor: 'white',
-    hostPointsButtonColor: 'gainsboro',
+    myStampsButtonColor: null,
+    hostPointsButtonColor: null,
     qrtopposition: 1000,
   }
 
@@ -186,6 +186,15 @@ class App extends Component {
     })
   }
 
+  routeChanged = (route) => {
+    this.setState(() => {
+      return {
+        myStampsButtonColor: route === 'main' ? 'white' : 'gainsboro',
+        hostPointsButtonColor: route === 'main' ? 'gainsboro' : 'white',
+      }
+    })
+  }
+
   componentDidMount() {
     if (this.state.access_token) {
       this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints())
@@ -222,26 +231,25 @@ class App extends Component {
       </Modal>
     }
 
-    const routeChanged = (route) => {
-      this.setState(() => {
-        return {
-          myStampsButtonColor: route === 'main' ? 'white' : 'gainsboro',
-          hostPointsButtonColor: route === 'main' ? 'gainsboro' : 'white',
-        }
-      })
-    }
-
     const getMainRoutes = () => {
       const { companies, hostpoints } = this.state
       return <>
         <Route path='/' exact render={(props) => (
-          <MyStamps {...props} data={companies}/>
+          <MyStamps
+            {...props}
+            data={companies}
+            changeButton={() => this.routeChanged('main')}
+          />
         )}/>
         <Route path='/card/:id' render={(props) => (
           <Card {...props} data={companies}/>
         )}/>
         <Route path='/hostpoints' render={(props) => (
-          <HostPoints {...props} data={hostpoints} onNextPage={() => this.getHostPoints()}/>
+          <HostPoints
+            {...props}
+            data={hostpoints}
+            onNextPage={() => this.getHostPoints()}
+            changeButton={() => this.routeChanged('hostpoints')}/>
         )}/>
         <Route path='/hostpoint/:id' render={(props) => (
           <Card {...props} data={hostpoints}/>
@@ -257,16 +265,10 @@ class App extends Component {
         <div className={s.buttonswrapper}>
           <div className={s.buttonscontainer}>
             <Link to={'/'}>
-              <button style={{ backgroundColor: this.state.myStampsButtonColor }} type="button"
-                      onClick={() => routeChanged('main')}>Мои
-                штампы
-              </button>
+              <button style={{ backgroundColor: this.state.myStampsButtonColor }} type="button">Мои штампы</button>
             </Link>
             <Link to={'/hostpoints'}>
-              <button style={{ backgroundColor: this.state.hostPointsButtonColor }} type="button"
-                      onClick={() => routeChanged('hostpoints')}>Все
-                заведения
-              </button>
+              <button style={{ backgroundColor: this.state.hostPointsButtonColor }} type="button">Все заведения</button>
             </Link>
           </div>
         </div>

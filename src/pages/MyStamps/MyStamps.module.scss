@@ -19,7 +19,7 @@
   font-family: Rubik, monospace;
   font-size: 14px;
   margin-left: 15px;
-  height: 85vh;
+  height: calc(100vh - 128px);
   overflow: scroll;
 }
 
