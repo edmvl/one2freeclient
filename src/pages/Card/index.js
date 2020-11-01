@@ -11,8 +11,8 @@ const Card = ({ data, match }) => {
   const { id } = params
   const coupon = data.find((item) => {
     return item.id === Number(id)
-  })
-  const { picPathVariations } = coupon
+  }) || {}
+  const { picPathVariations = {} } = coupon
   let rest = coupon.discountThreshold - coupon.discountCount
   const getCouponCardHeader = (coupon) => {
     switch (getCouponState(coupon)) {

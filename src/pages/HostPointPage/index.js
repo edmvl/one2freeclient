@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import s from './HostPointPage.module.scss'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 
@@ -17,7 +17,6 @@ const HostPointPage = ({ data, match }) => {
   const placeMarkOptions = {
     center: [latitude, longitude],
     preset: 'islands#redIcon',
-    // Setting the placemark color (in RGB format).
     iconColor: '#ff0000',
   }
   const placeMarkGeometry = [latitude, longitude]
