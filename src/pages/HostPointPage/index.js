@@ -7,8 +7,8 @@ const HostPointPage = ({ data, match }) => {
   const { id } = params
   const hostPoint = data.find((item, number) => {
     return number === Number(id)
-  })
-  const { location } = hostPoint
+  }) || {}
+  const { location = {} } = hostPoint
   const { longitude, latitude } = location
   const mapData = {
     center: [latitude, longitude],
