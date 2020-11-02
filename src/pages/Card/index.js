@@ -12,7 +12,7 @@ const Card = ({ data, match }) => {
   const coupon = data.find((item) => {
     return item.id === Number(id)
   }) || {}
-  const { picPathVariations = {} } = coupon
+  const { picPathVariations } = coupon
   let rest = coupon.discountThreshold - coupon.discountCount
   const getCouponCardHeader = (coupon) => {
     switch (getCouponState(coupon)) {
@@ -32,7 +32,7 @@ const Card = ({ data, match }) => {
       <div className={s.validUntil}>{'до ' + formattedDate(new Date(coupon.validUntil))}</div> : null
 
   }
-  return (
+  return picPathVariations ? (
     <div className={s.container}>
       <div className={s.header}>{coupon.hostPointTitle}</div>
       <div className={s.description}>{coupon.discription}</div>
@@ -58,6 +58,6 @@ const Card = ({ data, match }) => {
         </div>
       </div>
     </div>
-  )
+  ) : null
 }
 export default Card

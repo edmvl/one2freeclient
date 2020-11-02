@@ -1,7 +1,7 @@
 .container {
   font-family: Rubik, monospace;
   font-size: 14px;
-  margin-left: 15px;
+  height: calc(100vh - 128px);
 }
 
 .header {
@@ -10,7 +10,6 @@
   font-size: 24px;
   line-height: 24px;
   letter-spacing: 0.4px;
-  margin-left: 8px;
   color: #793377;
   text-align: center;
 }
@@ -19,7 +18,6 @@
   font-size: 14px;
   color: #793377;
   width: 285px;
-  margin: 8px 0 8px 8px;
 }
 
 .validUntil {
@@ -30,6 +28,9 @@
 .stampswrapper {
   display: flex;
   justify-content: center;
+  top: calc(50% - 162px);
+  position: absolute;
+  width: 100vw;
 }
 
 .stamps {
@@ -71,7 +72,6 @@
 }
 
 .stampswrapper {
-  padding-left: 14px;
 }
 
 .iconwrapper {
