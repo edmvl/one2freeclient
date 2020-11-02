@@ -6,7 +6,7 @@ const HostPoints = ({ data = [], history, onNextPage, changeButton }) => {
   const handleScroll = (e) => {
     const { target } = e
     const { scrollHeight, scrollTop, clientHeight } = target
-    if (scrollHeight - scrollTop === clientHeight) {
+    if (scrollHeight - scrollTop <= clientHeight) {
       onNextPage()
     }
   }
