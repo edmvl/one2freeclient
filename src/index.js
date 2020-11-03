@@ -11,7 +11,7 @@ ReactDOM.render(
 )
 
 serviceWorker.register({
-  onUpdate: () => {
-    window.location.reload()
+  onUpdate: (registration) => {
+    alert('Загружена новая версия, пожалуйста, перезапустите приложение')
   },
 })
