@@ -1,6 +1,7 @@
 import React from 'react'
 import s from './HostPoint.module.scss'
 import getPictureUrl from '../../utils/getPictureUrl'
+import placeholder from '../../img/ico/placeholder.png'
 
 const HostPoint = ({ hostPoint }) => {
   const { logoUrl } = hostPoint
@@ -10,7 +11,14 @@ const HostPoint = ({ hostPoint }) => {
       <div className={s.rectcontainer}>
         <div className={s.rectangleleft}>
           <div className={s.imgcontainer}>
-            <img className={s.icon} src={getPictureUrl('normal', { 'normal': logoUrl })} alt={hostPoint.productTitle}/>
+            <img
+              className={s.icon}
+              src={getPictureUrl('normal', { 'normal': logoUrl })}
+              alt={hostPoint.productTitle}
+              onError={(e) => {
+                e.target.src = placeholder
+              }}
+            />
           </div>
         </div>
         <div className={s.rectangleright}>
