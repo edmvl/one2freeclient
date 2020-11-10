@@ -14,7 +14,7 @@ import qs from 'qs'
 import HostPointPage from './pages/HostPointPage'
 
 class App extends Component {
-  resourceUrl = 'https://api.test.one2free.ru'
+  resourceUrl = 'https://api.one2free.ru'
   socket = null
   state = {
     access_token: localStorage.getItem('access_token'),
@@ -144,7 +144,7 @@ class App extends Component {
       }
     })
     const socketToken = localStorage.getItem('socketToken')
-    this.socket = new WebSocket(`wss://api.test.one2free.ru/hub/clients?userGuid=${socketToken}`)
+    this.socket = new WebSocket(`wss://api.one2free.ru/hub/clients?userGuid=${socketToken}`)
     this.socket.onopen = () => {
       this.setState({
         isQROpen: true,

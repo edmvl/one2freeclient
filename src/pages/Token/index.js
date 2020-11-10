@@ -6,7 +6,7 @@ const Token = ({ location = {}, updateRefreshToken, updateCoupons, history }) =>
   useEffect(() => {
     const search = location.search || ''
     const guid = search.replace('?guid=', '')
-    const url = `https://api.test.one2free.ru/client/${guid}/getToken`
+    const url = `https://api.one2free.ru/client/${guid}/getToken`
     axios.get(url, {}).then((responce) => {
       if (responce.statusText === 'OK') {
         const data = responce.data || {}
