@@ -2,31 +2,31 @@ import React from 'react'
 import getPictureUrl from '../../utils/getPictureUrl'
 
 const RepeatedStampIcons = ({ company, style }) => {
-  const {picPathVariations} = company
+  const {picPathVariations} = company;
 
   const getRepeatedIcons = (count, rest, s) => {
-    const stampedIcons = Array(count).fill(getPictureUrl('stamp', picPathVariations))
-    const restIcons = Array(rest).fill(getPictureUrl('outline', picPathVariations))
-    let index = 1
+    const stampedIcons = Array(count).fill(getPictureUrl('stamp', picPathVariations));
+    const restIcons = Array(rest).fill(getPictureUrl('outline', picPathVariations));
+    let index = 1;
     return stampedIcons.map((icon) => {
-        index++
+        index++;
         return <div key={index} className={s.iconwrapper}>
           <img src={icon} className={s.activeicon} alt={company.productTitle}/>
         </div>
       },
     ).concat(restIcons.map((icon) => {
-        index++
+        index++;
         return <div key={index} className={s.iconwrapper}>
           <img src={icon} className={s.disableicon} alt={company.productTitle}/>
         </div>
       },
     ))
-  }
+  };
 
-  let rest = company.discountThreshold - company.discountCount
+  let rest = company.discountThreshold - company.discountCount;
   return (
     <>
       {getRepeatedIcons(company.discountCount, rest, style)}
     </>)
-}
+};
 export default RepeatedStampIcons

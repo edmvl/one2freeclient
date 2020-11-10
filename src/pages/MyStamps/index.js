@@ -8,27 +8,27 @@ import getCouponState from '../../utils/couponState'
 const MyStamps = ({ data = [], history, changeButton }) => {
   const onCardClick = (id) => {
     history.push('/card/' + id)
-  }
+  };
 
   const getCompanyComponent = (coupon) => {
     switch (getCouponState(coupon)) {
       case 'expired':
         return (
           <StampsCardDisable company={coupon} key={coupon.id}/>
-        )
+        );
       case 'enough' :
         return (
           <StampsCardFree company={coupon} key={coupon.id}/>
-        )
+        );
       case 'insufficiently' :
         return (
           <StampsCardActive company={coupon} key={coupon.id}/>
-        )
+        );
       default:
         return null
     }
-  }
-  useEffect(changeButton, [])
+  };
+  useEffect(changeButton, []);
   return (
     <div className={s.container}>
       <header className={s.header}>Мои штампы</header>
@@ -39,6 +39,6 @@ const MyStamps = ({ data = [], history, changeButton }) => {
       }
     </div>
   )
-}
+};
 
 export default MyStamps

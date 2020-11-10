@@ -5,12 +5,12 @@ import declOfNum from '../../utils/declOfNum'
 import getPictureUrl from '../../utils/getPictureUrl'
 
 const StampsCardDisable = ({ company }) => {
-  const picPathVariations = company.picPathVariations
+  const picPathVariations = company.picPathVariations;
 
   const stamps = (discountCount) => {
-    const str = String(intToWords(discountCount) + ' ' + declOfNum(discountCount, ['штамп', 'штампа', 'штампов']))
+    const str = String(intToWords(discountCount) + ' ' + declOfNum(discountCount, ['штамп', 'штампа', 'штампов']));
     return str[0].toUpperCase() + str.slice(1)
-  }
+  };
 
   return (
     <>
@@ -27,5 +27,5 @@ const StampsCardDisable = ({ company }) => {
         </div>
       </div>
     </>)
-}
+};
 export default StampsCardDisable

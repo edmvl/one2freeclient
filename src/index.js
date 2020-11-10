@@ -8,10 +8,10 @@ ReactDOM.render(
     <App/>
   </React.StrictMode>,
   document.getElementById('root'),
-)
+);
 
 serviceWorker.register({
-  onUpdate: (registration) => {
+  onUpdate: () => {
     alert('Загружена новая версия, пожалуйста, перезапустите приложение')
   },
-})
+});

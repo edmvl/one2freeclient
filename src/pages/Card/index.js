@@ -7,31 +7,31 @@ import getPictureUrl from '../../utils/getPictureUrl'
 import free from '../../img/logo_free.svg'
 
 const Card = ({ data, match }) => {
-  const { params } = match
-  const { id } = params
+  const { params } = match;
+  const { id } = params;
   const coupon = data.find((item) => {
     return item.id === Number(id)
-  }) || {}
-  const { picPathVariations } = coupon
-  let rest = coupon.discountThreshold - coupon.discountCount
+  }) || {};
+  const { picPathVariations } = coupon;
+  let rest = coupon.discountThreshold - coupon.discountCount;
   const getCouponCardHeader = (coupon) => {
     switch (getCouponState(coupon)) {
       case 'expired':
-        return null
+        return null;
       case 'enough' :
-        return coupon.productTitle + ' бесплатно'
+        return coupon.productTitle + ' бесплатно';
       case 'insufficiently' :
-        return 'Осталось собрать'
+        return 'Осталось собрать';
       default:
         return null
     }
-  }
+  };
 
   const getDateUntil = (coupon) => {
     return coupon.validUntil ?
       <div className={s.validUntil}>{'до ' + formattedDate(new Date(coupon.validUntil))}</div> : null
 
-  }
+  };
   return picPathVariations ? (
     <div className={s.container}>
       <div className={s.header}>{coupon.hostPointTitle}</div>
@@ -59,5 +59,5 @@ const Card = ({ data, match }) => {
       </div>
     </div>
   ) : null
-}
+};
 export default Card

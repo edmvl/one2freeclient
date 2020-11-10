@@ -5,9 +5,9 @@ import RepeatedStampIcons from '../RepeatedStampIcons'
 import placeholder from '../../img/ico/placeholder.png'
 
 const StampsCardActive = ({ company }) => {
-  const picPathVariations = company.picPathVariations
-  const rest = company.discountThreshold - company.discountCount
-  const picUrl = getPictureUrl('normal', picPathVariations)
+  const picPathVariations = company.picPathVariations;
+  const rest = company.discountThreshold - company.discountCount;
+  const picUrl = getPictureUrl('normal', picPathVariations);
 
   return (
     <>
@@ -35,5 +35,5 @@ const StampsCardActive = ({ company }) => {
         </div>
       </div>
     </>)
-}
+};
 export default StampsCardActive

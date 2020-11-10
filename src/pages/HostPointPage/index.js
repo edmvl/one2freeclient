@@ -3,23 +3,23 @@ import s from './HostPointPage.module.scss'
 import { YMaps, Map, Placemark } from 'react-yandex-maps'
 
 const HostPointPage = ({ data, match }) => {
-  const { params } = match
-  const { id } = params
+  const { params } = match;
+  const { id } = params;
   const hostPoint = data.find((item, number) => {
     return number === Number(id)
-  }) || {}
-  const { location = {} } = hostPoint
-  const { longitude, latitude } = location
+  }) || {};
+  const { location = {} } = hostPoint;
+  const { longitude, latitude } = location;
   const mapData = {
     center: [latitude, longitude],
     zoom: 18,
-  }
+  };
   const placeMarkOptions = {
     center: [latitude, longitude],
     preset: 'islands#redIcon',
     iconColor: '#ff0000',
-  }
-  const placeMarkGeometry = [latitude, longitude]
+  };
+  const placeMarkGeometry = [latitude, longitude];
   return (
     <YMaps>
       <Map className={s.container} defaultState={mapData}>
@@ -27,5 +27,5 @@ const HostPointPage = ({ data, match }) => {
       </Map>
     </YMaps>
   )
-}
+};
 export default HostPointPage

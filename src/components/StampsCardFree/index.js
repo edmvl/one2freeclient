@@ -4,8 +4,8 @@ import getPictureUrl from '../../utils/getPictureUrl'
 import placeholder from '../../img/ico/placeholder.png'
 
 const StampsCardFree = ({ company }) => {
-  const picPathVariations = company.picPathVariations
-  const picUrl = getPictureUrl('active', picPathVariations)
+  const picPathVariations = company.picPathVariations;
+  const picUrl = getPictureUrl('active', picPathVariations);
   return (
     <>
       <div className={s.rectcontainer}>
@@ -29,5 +29,5 @@ const StampsCardFree = ({ company }) => {
         </div>
       </div>
     </>)
-}
+};
 export default StampsCardFree

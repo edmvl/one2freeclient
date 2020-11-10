@@ -1,11 +1,11 @@
 import React from 'react'
 
 const Icon = ({ name, ...rest }) => {
-  const ImportedIconRef = React.useRef(null)
-  const [loading, setLoading] = React.useState(false)
+  const ImportedIconRef = React.useRef(null);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     const importIcon = async () => {
       try {
         ImportedIconRef.current = (await import(`./${name}.svg`)).ReactComponent
@@ -14,15 +14,15 @@ const Icon = ({ name, ...rest }) => {
       } finally {
         setLoading(false)
       }
-    }
+    };
     importIcon()
-  }, [name])
+  }, [name]);
 
   if (!loading && ImportedIconRef.current) {
-    const { current: ImportedIcon } = ImportedIconRef
+    const { current: ImportedIcon } = ImportedIconRef;
     return <ImportedIcon {...rest} />
   }
 
   return null
-}
+};
 export default Icon

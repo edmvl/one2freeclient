@@ -18,6 +18,6 @@ class Modal extends React.Component {
 Modal.propTypes = {
   show: PropTypes.bool,
   children: PropTypes.node,
-}
+};
 
 export default Modal

@@ -4,16 +4,16 @@ import HostPoint from '../../components/HostPoint'
 
 const HostPoints = ({ data = [], history, onNextPage, changeButton }) => {
   const handleScroll = (e) => {
-    const { target } = e
-    const { scrollHeight, scrollTop, clientHeight } = target
+    const { target } = e;
+    const { scrollHeight, scrollTop, clientHeight } = target;
     if (scrollHeight - scrollTop <= clientHeight) {
       onNextPage()
     }
-  }
+  };
   const onHostPointClick = (id) => {
     history.push('/hostpoint/' + id)
-  }
-  useEffect(changeButton, [])
+  };
+  useEffect(changeButton, []);
   return (
     <div className={s.container} onScroll={handleScroll}>
       <header className={s.header}>Все заведения</header>
@@ -27,6 +27,6 @@ const HostPoints = ({ data = [], history, onNextPage, changeButton }) => {
       }
     </div>
   )
-}
+};
 
 export default HostPoints

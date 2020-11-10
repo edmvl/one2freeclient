@@ -4,7 +4,7 @@ import getPictureUrl from '../../utils/getPictureUrl'
 import placeholder from '../../img/ico/placeholder.png'
 
 const HostPoint = ({ hostPoint }) => {
-  const { logoUrl } = hostPoint
+  const { logoUrl } = hostPoint;
 
   return (
     <>
@@ -30,5 +30,5 @@ const HostPoint = ({ hostPoint }) => {
         </div>
       </div>
     </>)
-}
+};
 export default HostPoint
