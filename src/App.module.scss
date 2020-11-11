@@ -76,3 +76,14 @@ button:active {
 button:focus {
   outline: 0;
 }
+
+.loader {
+  position: absolute;
+  background: url("./img/loader.gif") no-repeat center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #FFFFFF;
+}

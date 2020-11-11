@@ -32,6 +32,7 @@ class App extends Component {
         myStampsButtonColor: null,
         hostPointsButtonColor: null,
         qrtopposition: 1000,
+        showLoader: false,
     };
 
     getMyInfo = async () => {
@@ -48,7 +49,12 @@ class App extends Component {
             localStorage.setItem('qrPicData', qrPicData);
             localStorage.setItem('identifier', identifier);
             localStorage.setItem('username', username);
-            localStorage.setItem('socketToken', socketToken)
+            localStorage.setItem('socketToken', socketToken);
+            this.setState(() => {
+                return {
+                    identifier
+                }
+            })
         })
     };
 
@@ -196,6 +202,14 @@ class App extends Component {
         })
     };
 
+    showLoaderGif = (showLoader) => {
+        this.setState(() => {
+            return {
+                showLoader: showLoader
+            }
+        })
+    };
+
     componentDidMount() {
         if (this.state.access_token) {
             this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints())
@@ -285,11 +299,23 @@ class App extends Component {
 
         const getLoginRoutes = () => {
             return <BrowserRouter>
-                <Route path='/login' component={Auth}/>
+                <Route
+                    path='/login'
+                    render={(props) => (
+                        <Auth
+                            {...props}
+                            showLoaderGif={this.showLoaderGif}
+                        />
+                    )}
+                />
                 <Route path='/getToken'
                        render={(props) => (
-                           <Token {...props} updateRefreshToken={this.updateTokens}
-                                  updateCoupons={this.getClientCoupons}/>
+                           <Token
+                               {...props}
+                               updateRefreshToken={this.updateTokens}
+                               updateCoupons={this.getClientCoupons}
+                               getMyInfo={this.getMyInfo}
+                           />
                        )}
                 />
                 <Redirect to={{
@@ -303,6 +329,7 @@ class App extends Component {
                 {
                     this.state.access_token ? getAuthoredRoutes() : getLoginRoutes()
                 }
+                {this.state.showLoader ? <div className={s.loader}/> : null}
             </div>
         )
     }

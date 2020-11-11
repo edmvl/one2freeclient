@@ -6,7 +6,10 @@ import ya from '../../img/ico/ya.png'
 import fb from '../../img/ico/fb.png'
 import s from './Auth.module.scss'
 
-const Auth = () => {
+const Auth = ({showLoaderGif}) => {
+    const onclick = () => {
+        showLoaderGif(true);
+    };
     return (
         <div className={s.main}>
             <div className={s.header}>
@@ -18,16 +21,16 @@ const Auth = () => {
             <div className={s.description}>
                 Вход в аккаунт
             </div>
-            <a href="https://api.one2free.ru/client/login?deviceType=4&provider=Google">
+            <a onClick={onclick} href="https://api.one2free.ru/client/login?deviceType=3&provider=Google">
                 <img className={s.icon} src={goo} alt="Google"/>
             </a>
-            <a href="https://api.one2free.ru/client/login?deviceType=4&provider=Yandex">
+            <a onClick={onclick} href="https://api.one2free.ru/client/login?deviceType=3&provider=Yandex">
                 <img className={s.icon} src={ya} alt="Yandex"/>
             </a>
-            <a href="https://api.one2free.ru/client/login?deviceType=4&provider=Facebook">
+            <a onClick={onclick} href="https://api.one2free.ru/client/login?deviceType=3&provider=Facebook">
                 <img className={s.icon} src={fb} alt="Facebook"/>
             </a>
-            <a href="https://api.one2free.ru/client/login?deviceType=3&provider=VKontakte">
+            <a onClick={onclick} href="https://api.one2free.ru/client/login?deviceType=3&provider=VKontakte">
                 <img className={s.icon} src={vk} alt="Vkontakte"/>
             </a>
         </div>
