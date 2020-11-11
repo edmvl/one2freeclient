@@ -329,7 +329,14 @@ class App extends Component {
                 {
                     this.state.access_token ? getAuthoredRoutes() : getLoginRoutes()
                 }
-                {this.state.showLoader ? <div className={s.loader}/> : null}
+                {this.state.showLoader ? (
+                    <div className={s.loader}>
+                        <div className={s.ldsripple}>
+                            <div className={s.ldsripplediv}/>
+                            <div className={s.ldsripplediv2}/>
+                        </div>
+                    </div>
+                ) : null}
             </div>
         )
     }
