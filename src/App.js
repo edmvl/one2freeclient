@@ -328,6 +328,7 @@ class App extends Component {
                                updateRefreshToken={this.updateTokens}
                                updateCoupons={this.getClientCoupons}
                                getMyInfo={this.getMyInfo}
+                               getHostPoints={this.getHostPoints}
                            />
                        )}
                 />

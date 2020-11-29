@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import free from '../../img/logo_free.svg'
 import axios from 'axios'
 
-const Token = ({location = {}, getMyInfo, updateRefreshToken, updateCoupons, history, resourceUrl}) => {
+const Token = ({location = {}, getMyInfo, updateRefreshToken, updateCoupons, getHostPoints, history, resourceUrl}) => {
     useEffect(() => {
         const search = location.search || '';
         const guid = search.replace('?guid=', '');
@@ -15,6 +15,7 @@ const Token = ({location = {}, getMyInfo, updateRefreshToken, updateCoupons, his
                 updateRefreshToken({access_token, refresh_token}, () => {
                     getMyInfo();
                     updateCoupons();
+                    getHostPoints();
                     history.push('/');
                 })
             }
