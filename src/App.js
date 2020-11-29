@@ -71,6 +71,7 @@ class App extends Component {
     };
 
     refreshTokenIfUnauth = () => {
+        this.showLoaderGif(true);
         const options = {
             method: 'POST',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -91,10 +92,12 @@ class App extends Component {
             }
         }).catch(() => {
             this.updateTokens({access_token: null, refresh_token: null})
-        })
+        });
+        this.showLoaderGif(false);
     };
 
     getClientCoupons = async () => {
+        this.showLoaderGif(true);
         await axios.get(this.resourceUrl + '/coupons/client', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -108,10 +111,12 @@ class App extends Component {
             })
         }).catch(() => {
             this.refreshTokenIfUnauth()
-        })
+        });
+        this.showLoaderGif(false);
     };
 
     getHostPoints = async () => {
+        this.showLoaderGif(true);
         await axios.get(this.resourceUrl + '/client/hostPoints', {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('access_token'),
@@ -137,7 +142,8 @@ class App extends Component {
             })
         }).catch(() => {
             this.refreshTokenIfUnauth()
-        })
+        });
+        this.showLoaderGif(false);
     };
 
     showQRCode = () => {
@@ -182,15 +188,16 @@ class App extends Component {
         })
     };
 
-    geoDetectSuccess = (position) => {
+    geoDetectSuccess = async (position) => {
         const {latitude, longitude} = position.coords;
-
-        this.setState(() => {
-            return {
-                latitude,
-                longitude,
-            }
-        })
+        if (latitude && longitude) {
+            this.setState(() => {
+                return {
+                    latitude,
+                    longitude,
+                }
+            })
+        }
     };
 
     routeChanged = (route) => {
@@ -211,11 +218,15 @@ class App extends Component {
     };
 
     componentDidMount() {
-        if (this.state.access_token) {
-            this.getClientCoupons().then(this.getMyInfo).then(this.getHostPoints())
-        }
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(this.geoDetectSuccess)
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    this.geoDetectSuccess(position).then(this.getHostPoints())
+                }
+            )
+        }
+        if (this.state.access_token) {
+            this.getClientCoupons().then(this.getMyInfo)
         }
     }
 
