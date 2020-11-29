@@ -315,6 +315,7 @@ class App extends Component {
                     render={(props) => (
                         <Auth
                             {...props}
+                            resourceUrl={this.resourceUrl}
                             showLoaderGif={this.showLoaderGif}
                         />
                     )}
@@ -323,6 +324,7 @@ class App extends Component {
                        render={(props) => (
                            <Token
                                {...props}
+                               resourceUrl={this.resourceUrl}
                                updateRefreshToken={this.updateTokens}
                                updateCoupons={this.getClientCoupons}
                                getMyInfo={this.getMyInfo}

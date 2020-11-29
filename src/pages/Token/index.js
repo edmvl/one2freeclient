@@ -2,11 +2,11 @@ import React, {useEffect} from 'react'
 import free from '../../img/logo_free.svg'
 import axios from 'axios'
 
-const Token = ({location = {}, getMyInfo, updateRefreshToken, updateCoupons, history}) => {
+const Token = ({location = {}, getMyInfo, updateRefreshToken, updateCoupons, history, resourceUrl}) => {
     useEffect(() => {
         const search = location.search || '';
         const guid = search.replace('?guid=', '');
-        const url = `https://api.one2free.ru/client/${guid}/getToken`;
+        const url = `${resourceUrl}/client/${guid}/getToken`;
         axios.get(url, {}).then((responce) => {
             if (responce.statusText === 'OK') {
                 const data = responce.data || {};
