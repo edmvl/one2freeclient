@@ -9,6 +9,7 @@ const HostPoint = ({hostPoint}) => {
     let logo;
 
     axios.get(logoFullurl).then(responce => {
+        debugger
             logo = (
                 <img
                     className={s.icon}
@@ -19,6 +20,7 @@ const HostPoint = ({hostPoint}) => {
             console.log(responce);
         }
     ).catch(error => {
+        debugger
             logo = (
                 <div className={s.textlogo}>
                     {title.substring(0, 1)}
