@@ -8,18 +8,24 @@ const HostPoint = ({hostPoint}) => {
     const logoFullurl = getPictureUrl('normal', {'normal': logoUrl});
     let logo;
 
-    axios.get(logoFullurl).then(
-        logo = (
-            <img
-                className={s.icon}
-                src={logoFullurl}
-                alt={hostPoint.productTitle}
-            />
-        )).catch(logo = (
-            <div className={s.textlogo}>
-                {title.substring(0, 1)}
-            </div>
-        )
+    axios.get(logoFullurl).then(responce => {
+            logo = (
+                <img
+                    className={s.icon}
+                    src={logoFullurl}
+                    alt={hostPoint.productTitle}
+                />
+            );
+            console.log(responce);
+        }
+    ).catch(error => {
+            logo = (
+                <div className={s.textlogo}>
+                    {title.substring(0, 1)}
+                </div>
+            );
+            console.log(error);
+        }
     );
     return (
         <>
