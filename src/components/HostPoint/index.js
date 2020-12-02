@@ -1,33 +1,20 @@
 import React from 'react'
 import s from './HostPoint.module.scss'
 import getPictureUrl from '../../utils/getPictureUrl'
-import axios from 'axios'
 
 const HostPoint = ({hostPoint}) => {
     const {logoUrl, title} = hostPoint;
     const logoFullurl = getPictureUrl('normal', {'normal': logoUrl});
-    let logo;
-
-    axios.get(logoFullurl).then(responce => {
-        debugger
-            logo = (
-                <img
-                    className={s.icon}
-                    src={logoFullurl}
-                    alt={hostPoint.productTitle}
-                />
-            );
-            console.log(responce);
-        }
-    ).catch(error => {
-        debugger
-            logo = (
-                <div className={s.textlogo}>
-                    {title.substring(0, 1)}
-                </div>
-            );
-            console.log(error);
-        }
+    let logo = logoUrl ? (
+        <img
+            className={s.icon}
+            src={logoFullurl}
+            alt={hostPoint.productTitle}
+        />
+    ) : (
+        <div className={s.textlogo}>
+            {title.substring(0, 1)}
+        </div>
     );
     return (
         <>
