@@ -16,6 +16,7 @@ const HostPoint = ({hostPoint}) => {
             {title.substring(0, 1)}
         </div>
     );
+    console.log(logo);
     return (
         <>
             <div className={s.rectcontainer}>
